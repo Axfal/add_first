@@ -45,67 +45,68 @@ class DashboardPage extends StatelessWidget {
               bottomNavigationBar: selectedIndex == 2
                   ? null
                   : Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15.0.r),
-                    topRight: Radius.circular(15.0.r),
-                  ),
-                ),
-                child: BottomNavigationBar(
-                  currentIndex: selectedIndex,
-                  onTap: (index) {
-                    dashboardProvider.updateSelectedIndex(index);
-                    if (index == 2) {
-                      _navigateToSellPage(context);
-                    }
-                  },
-
-                  selectedItemColor: Colors.black,
-                  unselectedItemColor: Colors.black,
-                  backgroundColor: Colors.white,
-                  type: BottomNavigationBarType.fixed,
-                  iconSize: 20.sp,
-                  selectedLabelStyle: TextStyle(fontSize: 12.sp, color: Colors.black),
-                  unselectedLabelStyle: TextStyle(fontSize: 12.sp, color: Colors.black),
-                  items: [
-                    _buildBottomNavigationBarItem(
-                      'assets/svg_bottom/home_outline.svg',
-                      'assets/svg_bottom/home_fill.svg',
-                      'Home',
-                      0,
-                      selectedIndex,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15.0.r),
+                          topRight: Radius.circular(15.0.r),
+                        ),
+                      ),
+                      child: BottomNavigationBar(
+                        currentIndex: selectedIndex,
+                        onTap: (index) {
+                          dashboardProvider.updateSelectedIndex(index);
+                          if (index == 2) {
+                            _navigateToSellPage(context);
+                          }
+                        },
+                        selectedItemColor: Colors.black,
+                        unselectedItemColor: Colors.black,
+                        backgroundColor: Colors.white,
+                        type: BottomNavigationBarType.fixed,
+                        iconSize: 20.sp,
+                        selectedLabelStyle:
+                            TextStyle(fontSize: 12.sp, color: Colors.black),
+                        unselectedLabelStyle:
+                            TextStyle(fontSize: 12.sp, color: Colors.black),
+                        items: [
+                          _buildBottomNavigationBarItem(
+                            'assets/svg_bottom/home_outline.svg',
+                            'assets/svg_bottom/home_fill.svg',
+                            'Home',
+                            0,
+                            selectedIndex,
+                          ),
+                          _buildBottomNavigationBarItem(
+                            'assets/svg_bottom/message_outline.svg',
+                            'assets/svg_bottom/message_fill.svg',
+                            'Chats',
+                            1,
+                            selectedIndex,
+                          ),
+                          _buildBottomNavigationBarItem(
+                            'assets/svg_bottom/sell_02.svg',
+                            'assets/svg_bottom/sell_02.svg',
+                            'Sell',
+                            2,
+                            selectedIndex,
+                          ),
+                          _buildBottomNavigationBarItem(
+                            'assets/svg_bottom/My_Ads_outline.svg',
+                            'assets/svg_bottom/My_Ads_fill.svg',
+                            'My Ads',
+                            3,
+                            selectedIndex,
+                          ),
+                          _buildBottomNavigationBarItem(
+                            'assets/svg_bottom/profile_outline.svg',
+                            'assets/svg_bottom/profile_fill.svg',
+                            'Account',
+                            4,
+                            selectedIndex,
+                          ),
+                        ],
+                      ),
                     ),
-                    _buildBottomNavigationBarItem(
-                      'assets/svg_bottom/message_outline.svg',
-                      'assets/svg_bottom/message_fill.svg',
-                      'Chats',
-                      1,
-                      selectedIndex,
-                    ),
-                    _buildBottomNavigationBarItem(
-                      'assets/svg_bottom/sell_02.svg',
-                      'assets/svg_bottom/sell_02.svg',
-                      'Sell',
-                      2,
-                      selectedIndex,
-                    ),
-                    _buildBottomNavigationBarItem(
-                      'assets/svg_bottom/My_Ads_outline.svg',
-                      'assets/svg_bottom/My_Ads_fill.svg',
-                      'My Ads',
-                      3,
-                      selectedIndex,
-                    ),
-                    _buildBottomNavigationBarItem(
-                      'assets/svg_bottom/profile_outline.svg',
-                      'assets/svg_bottom/profile_fill.svg',
-                      'Account',
-                      4,
-                      selectedIndex,
-                    ),
-                  ],
-                ),
-              ),
             ),
           );
         },
@@ -123,20 +124,21 @@ class DashboardPage extends StatelessWidget {
           const end = Offset.zero;
           const curve = Curves.easeInOut;
 
-          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          var tween =
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
           var offsetAnimation = animation.drive(tween);
 
           return SlideTransition(position: offsetAnimation, child: child);
         },
       ),
     ).then((_) {
-      Provider.of<DashboardProvider>(context, listen: false).updateSelectedIndex(0);
+      Provider.of<DashboardProvider>(context, listen: false)
+          .updateSelectedIndex(0);
     });
   }
 
-
-  BottomNavigationBarItem _buildBottomNavigationBarItem(
-      String unselectedSvg, String selectedSvg, String label, int index, int selectedIndex) {
+  BottomNavigationBarItem _buildBottomNavigationBarItem(String unselectedSvg,
+      String selectedSvg, String label, int index, int selectedIndex) {
     bool isSelected = index == selectedIndex;
 
     return BottomNavigationBarItem(

@@ -117,6 +117,7 @@ class _Home01State extends State<Home01> {
               ),
             ),
             SliverToBoxAdapter(child: homeCategory(context, categoryProvider)),
+
             /// Adds
             SliverToBoxAdapter(
               child: Padding(
@@ -128,12 +129,14 @@ class _Home01State extends State<Home01> {
                     enlargeCenterPage: true,
                     viewportFraction: 0.9,
                     autoPlayInterval: const Duration(seconds: 4),
-                    autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                    autoPlayAnimationDuration:
+                        const Duration(milliseconds: 800),
                     enableInfiniteScroll: true,
                   ),
                   items: addsProvider.addsList
                       .expand((addsModel) => addsModel.ads ?? [])
-                      .where((ad) => ad.image != null && ad.image!.startsWith('https:'))
+                      .where((ad) =>
+                          ad.image != null && ad.image!.startsWith('https:'))
                       .map((ad) {
                     return Builder(
                       builder: (BuildContext context) {
@@ -153,34 +156,42 @@ class _Home01State extends State<Home01> {
                           child: Column(
                             children: [
                               ClipRRect(
-                                borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(16.r)),
                                 child: CachedNetworkImage(
                                   imageUrl: ad.image!,
                                   height: 140.h,
                                   width: double.infinity,
                                   fit: BoxFit.cover,
-                                  placeholder: (context, url) => Shimmer.fromColors(
+                                  placeholder: (context, url) =>
+                                      Shimmer.fromColors(
                                     baseColor: Colors.grey.shade200,
                                     highlightColor: Colors.grey.shade100,
                                     child: Container(
                                       height: 140.h,
                                       width: double.infinity,
                                       color: Colors.grey.shade300,
-                                      child: Icon(Icons.image, size: 40.sp, color: Colors.grey.shade400),
+                                      child: Icon(Icons.image,
+                                          size: 40.sp,
+                                          color: Colors.grey.shade400),
                                     ),
                                   ),
-                                  errorWidget: (context, url, error) => Container(
+                                  errorWidget: (context, url, error) =>
+                                      Container(
                                     height: 140.h,
                                     color: Colors.grey.shade200,
-                                    child: Icon(Icons.broken_image, size: 50, color: Colors.grey),
+                                    child: Icon(Icons.broken_image,
+                                        size: 50, color: Colors.grey),
                                   ),
                                 ),
                               ),
                               Expanded(
                                 child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 10.w, vertical: 6.h),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Flexible(
                                         child: Text(
@@ -195,7 +206,9 @@ class _Home01State extends State<Home01> {
                                       ),
                                       SizedBox(height: 2.h),
                                       Text(
-                                        ad.price != null ? 'PKR ${ad.price}' : 'No Price',
+                                        ad.price != null
+                                            ? 'PKR ${ad.price}'
+                                            : 'No Price',
                                         style: TextStyle(
                                           fontSize: 13.sp,
                                           fontWeight: FontWeight.bold,
@@ -205,14 +218,17 @@ class _Home01State extends State<Home01> {
                                       SizedBox(height: 2.h),
                                       Row(
                                         children: [
-                                          Icon(Icons.location_on, size: 14.sp, color: Colors.grey),
+                                          Icon(Icons.location_on,
+                                              size: 14.sp, color: Colors.grey),
                                           SizedBox(width: 2.w),
                                           Expanded(
                                             child: Text(
                                               ad.location ?? 'Unknown',
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(fontSize: 12.sp, color: Colors.grey.shade600),
+                                              style: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  color: Colors.grey.shade600),
                                             ),
                                           ),
                                         ],
@@ -220,14 +236,17 @@ class _Home01State extends State<Home01> {
                                       SizedBox(height: 2.h),
                                       Row(
                                         children: [
-                                          Icon(Icons.access_time, size: 14.sp, color: Colors.grey),
+                                          Icon(Icons.access_time,
+                                              size: 14.sp, color: Colors.grey),
                                           SizedBox(width: 2.w),
                                           Expanded(
                                             child: Text(
                                               ad.createdAt ?? '',
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(fontSize: 12.sp, color: Colors.grey.shade600),
+                                              style: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  color: Colors.grey.shade600),
                                             ),
                                           ),
                                         ],
@@ -245,8 +264,6 @@ class _Home01State extends State<Home01> {
                 ),
               ),
             ),
-
-
 
             if (categoryProvider.getCategory != null)
               ...categoryProvider.getCategory!.categories!.map((category) {
