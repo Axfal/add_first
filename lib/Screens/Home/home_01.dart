@@ -188,7 +188,7 @@ class _Home01State extends State<Home01> {
                               Expanded(
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: 10.w, vertical: 6.h),
+                                      horizontal: 8.w, vertical: 4.h),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -212,7 +212,7 @@ class _Home01State extends State<Home01> {
                                         style: TextStyle(
                                           fontSize: 13.sp,
                                           fontWeight: FontWeight.bold,
-                                          color: Colors.green.shade700,
+                                          color: AppColor.primaryColor,
                                         ),
                                       ),
                                       SizedBox(height: 2.h),

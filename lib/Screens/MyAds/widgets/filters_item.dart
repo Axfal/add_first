@@ -16,39 +16,66 @@ class FiltersItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 4.h),
-      child: GestureDetector(
-        onTap: onTap,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
+      padding: EdgeInsets.symmetric(vertical: 8.h),
+      child: Material(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14.r),
+        elevation: 1.2,
+        shadowColor: Colors.black12,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(14.r),
+          onTap: onTap,
+          splashColor: Colors.grey.withOpacity(0.15),
+          highlightColor: Colors.transparent,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+            child: Row(
+              children: [
+                // Titles Column
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      SizedBox(height: 6.h),
+                      Text(
+                        subtitle,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 4.h),
-                  Text(
-                    subtitle,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 13.sp,
-                    ),
+                ),
+
+                // Arrow Icon with subtle circle background
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade200,
+                    shape: BoxShape.circle,
                   ),
-                ],
-              ),
+                  padding: EdgeInsets.all(6.w),
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    size: 16.sp,
+                    color: Colors.grey.shade700,
+                  ),
+                ),
+              ],
             ),
-            Icon(Icons.arrow_forward_ios, size: 18.sp),
-          ],
+          ),
         ),
       ),
     );

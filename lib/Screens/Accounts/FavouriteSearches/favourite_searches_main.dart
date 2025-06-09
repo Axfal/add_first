@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+// ignore_for_file: prefer_const_constructors
+
 import 'package:olx_app/Screens/Accounts/FavouriteSearches/Favourites/favourites_screen_content.dart';
 import 'package:olx_app/Screens/Accounts/FavouriteSearches/SavedSearches/savedSearches_screen_content.dart';
-import 'package:olx_app/Screens/Accounts/FavouriteSearches/provider/page_index.dart';
-import 'package:provider/provider.dart';
+import 'package:olx_app/resources/exports.dart';
 
 class FavouriteSearchesMain extends StatelessWidget {
   const FavouriteSearchesMain({super.key});
@@ -12,15 +11,7 @@ class FavouriteSearchesMain extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text('Favourites & Saved Searches', style: TextStyle(fontSize: 18, color: Colors.black),),
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
-        backgroundColor: Colors.white,
-      ),
+      appBar: buildAppBar(context, "Favourites & Searches"),
       body: Column(
         children: [
           Consumer<PageIndexProvider>(
@@ -38,8 +29,12 @@ class FavouriteSearchesMain extends StatelessWidget {
                             child: Text(
                               'Favourites',
                               style: TextStyle(
-                                color: provider.pageIndex == 0 ? Colors.black : Colors.black87,
-                                fontWeight: provider.pageIndex == 0 ? FontWeight.bold : FontWeight.normal,
+                                color: provider.pageIndex == 0
+                                    ? Colors.black
+                                    : Colors.black87,
+                                fontWeight: provider.pageIndex == 0
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
                               ),
                             ),
                           ),
@@ -54,8 +49,12 @@ class FavouriteSearchesMain extends StatelessWidget {
                             child: Text(
                               'Saved Searches',
                               style: TextStyle(
-                                color: provider.pageIndex == 1 ? Colors.black : Colors.black87,
-                                fontWeight: provider.pageIndex == 1 ? FontWeight.bold : FontWeight.normal,
+                                color: provider.pageIndex == 1
+                                    ? Colors.black
+                                    : Colors.black87,
+                                fontWeight: provider.pageIndex == 1
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
                               ),
                             ),
                           ),
@@ -71,13 +70,17 @@ class FavouriteSearchesMain extends StatelessWidget {
                         Expanded(
                           child: Container(
                             height: 2.h,
-                            color: provider.pageIndex == 0 ? Colors.black : Colors.transparent,
+                            color: provider.pageIndex == 0
+                                ? Colors.black
+                                : Colors.transparent,
                           ),
                         ),
                         Expanded(
                           child: Container(
                             height: 2.h,
-                            color: provider.pageIndex == 1 ? Colors.black : Colors.transparent,
+                            color: provider.pageIndex == 1
+                                ? Colors.black
+                                : Colors.transparent,
                           ),
                         ),
                       ],

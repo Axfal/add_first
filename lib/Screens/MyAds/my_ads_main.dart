@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:olx_app/Screens/MyAds/ads_select.dart';
 import 'package:olx_app/Widgets/my_ads_item.dart';
 import 'package:olx_app/Widgets/slide_page_route.dart';
+import 'package:olx_app/resources/exports.dart';
 
 import '../../resources/color.dart';
 
@@ -13,23 +14,12 @@ class MyAds01 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          'My Ads',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20.sp,
-          ),
-        ),
-        automaticallyImplyLeading: false,
-        elevation: 0,
-      ),
+      appBar: buildAppBar(context, "My Adds"),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12.w),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -178,40 +168,42 @@ void _onThreeDotsTap(BuildContext context) {
   showModalBottomSheet(
     context: context,
     builder: (BuildContext context) {
-      return Container(
-        color: Colors.white,
-        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              title: Text(
-                "Mark as Sold",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
+      return SafeArea(
+        child: Container(
+          color: Colors.white,
+          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: Text(
+                  "Mark as Sold",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
               ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text(
-                "Deactivate",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
+              ListTile(
+                title: Text(
+                  "Deactivate",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
               ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text(
-                "Cancel",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
+              ListTile(
+                title: Text(
+                  "Cancel",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
               ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       );
     },

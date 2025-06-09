@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:olx_app/Screens/ProductDetail/product_detail.dart';
+import 'package:olx_app/resources/color.dart';
 
 class FavouritesProductItem extends StatelessWidget {
   final ImageProvider image;
@@ -42,128 +43,127 @@ class FavouritesProductItem extends StatelessWidget {
         );
       },
       child: Container(
-        width: double.infinity.w,
+        margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.shade300),
-          borderRadius: BorderRadius.circular(8.r),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20.r),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 12,
+              offset: Offset(0, 6),
+            ),
+          ],
         ),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: 100.w,
-              height: 110.h,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: image,
-                  fit: BoxFit.cover,
-                ),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8.r),
-                  bottomLeft: Radius.circular(8.r),
-                ),
+            // Image
+            ClipRRect(
+              borderRadius: BorderRadius.circular(18.r),
+              child: Image(
+                image: image,
+                width: 120.w,
+                height: 140.h,
+                fit: BoxFit.cover,
               ),
             ),
+
+            // Details
             Expanded(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.h),
+                padding: EdgeInsets.all(14.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Price and Heart
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Rs.$price',
+                          productName,
                           style: TextStyle(
-                            fontSize: 13.sp,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.bold,
+                            color: Colors.black87,
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
                         ),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: onTap,
                           child: Icon(
-                            Icons.favorite_outline,
-                            size: 16.sp,
+                            Icons.favorite_rounded,
+                            color: Colors.redAccent,
+                            size: 22.sp,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 4.h),
+                    SizedBox(height: 6.h),
+
+                    // Title
                     Text(
-                      productName,
+                      'Rs. ${price?.toStringAsFixed(0) ?? ''}',
                       style: TextStyle(
-                        fontSize: 13.sp,
-                      ),
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColor.primaryColor),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(height: 4.h),
+                    SizedBox(height: 8.h),
 
-                    if (bedsCount != null || bathsCount != null || marlasCount != null)
+                    // Bed, Bath, Area
+                    if (bedsCount != null ||
+                        bathsCount != null ||
+                        marlasCount != null)
                       Row(
                         children: [
-                          if (bedsCount != null) ...[
-                            Icon(Icons.bed, size: 11.h),
-                            SizedBox(width: 6.w),
-                            Text(
-                              '$bedsCount',
-                              style: TextStyle(fontSize: 11.sp, fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(width: 7.w),
-                          ],
-                          if (bathsCount != null) ...[
-                            Icon(Icons.bathtub_outlined, size: 11.h),
-                            SizedBox(width: 6.w),
-                            Text(
-                              '$bathsCount',
-                              style: TextStyle(fontSize: 11.sp, fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(width: 7.w),
-                          ],
-                          if (marlasCount != null) ...[
-                            Icon(Icons.grid_view, size: 11.h),
-                            SizedBox(width: 6.w),
-                            Text(
-                              '$marlasCount $marlaKanal',
-                              style: TextStyle(fontSize: 11.sp, fontWeight: FontWeight.bold),
-                            ),
-                          ],
+                          if (bedsCount != null)
+                            _infoIcon(Icons.bed, '$bedsCount'),
+                          if (bathsCount != null)
+                            _infoIcon(Icons.bathtub, '$bathsCount'),
+                          if (marlasCount != null)
+                            _infoIcon(
+                                Icons.square_foot, '$marlasCount $marlaKanal'),
                         ],
                       ),
-
-                    SizedBox(height: 4.h),
-
-                    if (model != null && meter != null)
+                    if (model != null && meter != null) ...[
+                      SizedBox(height: 6.h),
                       Row(
                         children: [
-                          Icon(Icons.drive_eta_outlined, size: 11.h),
-                          SizedBox(width: 6.w),
-                          Text(
-                            '$model - $meter km',
-                            style: TextStyle(fontSize: 11.sp, fontWeight: FontWeight.bold),
+                          _infoIcon(Icons.directions_car_filled_outlined,
+                              '$model • ${meter}km'),
+                        ],
+                      ),
+                    ],
+
+                    SizedBox(height: 8.h),
+
+                    // City and Days
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(Icons.location_on,
+                                size: 14.sp, color: Colors.grey[600]),
+                            SizedBox(width: 4.w),
+                            Text(
+                              city,
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          '${daysCount.toInt()}d ago',
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            color: Colors.grey[600],
                           ),
-                        ],
-                      ),
-
-                    SizedBox(height: 4.h),
-
-                    Text(
-                      city,
-                      style: TextStyle(
-                        fontSize: 11.sp,
-                        color: Colors.black54,
-                      ),
-                    ),
-                    SizedBox(height: 4.h),
-                    Text(
-                      '$daysCount days ago',
-                      style: TextStyle(
-                        fontSize: 11.sp,
-                        color: Colors.black54,
-                      ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -171,6 +171,25 @@ class FavouritesProductItem extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _infoIcon(IconData icon, String value) {
+    return Padding(
+      padding: EdgeInsets.only(right: 12.w),
+      child: Row(
+        children: [
+          Icon(icon, size: 16.sp, color: Colors.grey.shade700),
+          SizedBox(width: 4.w),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
       ),
     );
   }

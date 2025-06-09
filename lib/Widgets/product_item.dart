@@ -38,7 +38,7 @@ class ProductItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 180.w,
+        width: 200.w,
         margin: EdgeInsets.symmetric(horizontal: 6.w, vertical: 8.h),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -63,21 +63,25 @@ class ProductItem extends StatelessWidget {
                 width: double.infinity,
                 child: (imageUrl != null && imageUrl!.isNotEmpty)
                     ? (imageUrl!.startsWith('http')
-                    ? FadeInImage.assetNetwork(
-                  placeholder: 'assets/placeholder.png',
-                  image: imageUrl!,
-                  fit: BoxFit.cover,
-                  imageErrorBuilder: (context, error, stackTrace) =>
-                  const Center(child: Icon(Icons.broken_image, color: Colors.grey, size: 30)),
-                )
-                    : Image.asset(imageUrl!, fit: BoxFit.cover))
-                    : const Center(child: Icon(Icons.broken_image, size: 30, color: Colors.grey)),
+                        ? FadeInImage.assetNetwork(
+                            placeholder: 'assets/placeholder.png',
+                            image: imageUrl!,
+                            fit: BoxFit.cover,
+                            imageErrorBuilder: (context, error, stackTrace) =>
+                                const Center(
+                                    child: Icon(Icons.broken_image,
+                                        color: Colors.grey, size: 30)),
+                          )
+                        : Image.asset(imageUrl!, fit: BoxFit.cover))
+                    : const Center(
+                        child: Icon(Icons.broken_image,
+                            size: 30, color: Colors.grey)),
               ),
             ),
 
             /// Info Section
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
+              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -86,14 +90,18 @@ class ProductItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Rs. ${price?.toStringAsFixed(0) ?? "N/A"}',
+                        productName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
                         style: TextStyle(
                           fontSize: 13.sp,
                           fontWeight: FontWeight.w600,
                           color: Colors.black,
                         ),
                       ),
-                      Icon(Icons.favorite_border, size: 16.sp, color: Colors.grey.shade600),
+                      Icon(Icons.favorite_border,
+                          size: 16.sp, color: Colors.grey.shade600),
                     ],
                   ),
 
@@ -101,11 +109,11 @@ class ProductItem extends StatelessWidget {
 
                   /// Product Name
                   Text(
-                    productName,
+                    'Rs. ${price?.toStringAsFixed(0) ?? "N/A"}',
                     style: TextStyle(
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black87,
+                      color: AppColor.primaryColor,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -114,7 +122,9 @@ class ProductItem extends StatelessWidget {
                   SizedBox(height: 4.h),
 
                   /// Beds, Baths, Marlas
-                  if (bedsCount != null || bathsCount != null || marlasCount != null)
+                  if (bedsCount != null ||
+                      bathsCount != null ||
+                      marlasCount != null)
                     Row(
                       children: [
                         if (bedsCount != null)
@@ -122,7 +132,8 @@ class ProductItem extends StatelessWidget {
                         if (bathsCount != null)
                           _infoIconText(Icons.bathtub_outlined, '$bathsCount'),
                         if (marlasCount != null)
-                          _infoIconText(Icons.grid_view_rounded, '$marlasCount $marlaKanal'),
+                          _infoIconText(Icons.grid_view_rounded,
+                              '$marlasCount $marlaKanal'),
                       ],
                     ),
 
@@ -131,21 +142,31 @@ class ProductItem extends StatelessWidget {
                     SizedBox(height: 4.h),
                     Row(
                       children: [
-                        Icon(Icons.directions_car, size: 12.sp, color: Colors.grey.shade600),
+                        Icon(Icons.directions_car,
+                            size: 12.sp, color: Colors.grey.shade600),
                         SizedBox(width: 4.w),
-                        Text('$model • ${meter}km', style: TextStyle(fontSize: 11.sp, color: Colors.grey.shade700)),
+                        Text('$model • ${meter}km',
+                            style: TextStyle(
+                                fontSize: 11.sp, color: Colors.grey.shade700)),
                       ],
                     ),
                   ],
 
-                  SizedBox(height: 6.h),
+                  SizedBox(height: 4.h),
 
                   /// City & Time
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(city, style: TextStyle(fontSize: 11.sp, color: Colors.grey.shade600)),
-                      Text('${daysCount.toInt()}d ago', style: TextStyle(fontSize: 11.sp, color: Colors.grey.shade600)),
+                      Text(city,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: false,
+                          style: TextStyle(
+                              fontSize: 11.sp, color: Colors.grey.shade600)),
+                      Text('${daysCount.toInt()}d ago',
+                          style: TextStyle(
+                              fontSize: 11.sp, color: Colors.grey.shade600)),
                     ],
                   ),
                 ],
@@ -162,7 +183,8 @@ class ProductItem extends StatelessWidget {
       children: [
         Icon(icon, size: 12.sp, color: Colors.grey.shade600),
         SizedBox(width: 3.w),
-        Text(text, style: TextStyle(fontSize: 11.sp, color: Colors.grey.shade700)),
+        Text(text,
+            style: TextStyle(fontSize: 11.sp, color: Colors.grey.shade700)),
         SizedBox(width: 6.w),
       ],
     );
