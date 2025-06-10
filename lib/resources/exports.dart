@@ -46,3 +46,4 @@ export 'package:olx_app/Screens/ProductDetail/product_detail.dart';
 export 'package:olx_app/repository/adds_repo.dart';
 export 'package:olx_app/model/adds_model.dart';
 export 'package:olx_app/Providers/adds_provider.dart';
+export 'package:olx_app/Widgets/product_details_feature_item.dart';

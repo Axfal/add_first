@@ -118,7 +118,7 @@ class _Home01State extends State<Home01> {
             ),
             SliverToBoxAdapter(child: homeCategory(context, categoryProvider)),
 
-            /// Adds
+            /// Products
             SliverToBoxAdapter(
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 10.h),
@@ -140,122 +140,125 @@ class _Home01State extends State<Home01> {
                       .map((ad) {
                     return Builder(
                       builder: (BuildContext context) {
-                        return Container(
-                          margin: EdgeInsets.symmetric(horizontal: 4.w),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16.r),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 6,
-                                offset: Offset(0, 8),
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(16.r)),
-                                child: CachedNetworkImage(
-                                  imageUrl: ad.image!,
-                                  height: 140.h,
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                  placeholder: (context, url) =>
-                                      Shimmer.fromColors(
-                                    baseColor: Colors.grey.shade200,
-                                    highlightColor: Colors.grey.shade100,
-                                    child: Container(
+                        return InkWell(
+                          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductDetailPage())),
+                          child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 4.w),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16.r),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  blurRadius: 6,
+                                  offset: Offset(0, 8),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(16.r)),
+                                  child: CachedNetworkImage(
+                                    imageUrl: ad.image!,
+                                    height: 140.h,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, url) =>
+                                        Shimmer.fromColors(
+                                      baseColor: Colors.grey.shade200,
+                                      highlightColor: Colors.grey.shade100,
+                                      child: Container(
+                                        height: 140.h,
+                                        width: double.infinity,
+                                        color: Colors.grey.shade300,
+                                        child: Icon(Icons.image,
+                                            size: 40.sp,
+                                            color: Colors.grey.shade400),
+                                      ),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Container(
                                       height: 140.h,
-                                      width: double.infinity,
-                                      color: Colors.grey.shade300,
-                                      child: Icon(Icons.image,
-                                          size: 40.sp,
-                                          color: Colors.grey.shade400),
+                                      color: Colors.grey.shade200,
+                                      child: Icon(Icons.broken_image,
+                                          size: 50, color: Colors.grey),
                                     ),
                                   ),
-                                  errorWidget: (context, url, error) =>
-                                      Container(
-                                    height: 140.h,
-                                    color: Colors.grey.shade200,
-                                    child: Icon(Icons.broken_image,
-                                        size: 50, color: Colors.grey),
-                                  ),
                                 ),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 8.w, vertical: 4.h),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Flexible(
-                                        child: Text(
-                                          ad.title ?? 'No Title',
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
+                                Expanded(
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 8.w, vertical: 4.h),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Flexible(
+                                          child: Text(
+                                            ad.title ?? 'No Title',
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 2.h),
+                                        Text(
+                                          ad.price != null
+                                              ? 'PKR ${ad.price}'
+                                              : 'No Price',
                                           style: TextStyle(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w600,
+                                            fontSize: 13.sp,
+                                            fontWeight: FontWeight.bold,
+                                            color: AppColor.primaryColor,
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(height: 2.h),
-                                      Text(
-                                        ad.price != null
-                                            ? 'PKR ${ad.price}'
-                                            : 'No Price',
-                                        style: TextStyle(
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColor.primaryColor,
+                                        SizedBox(height: 2.h),
+                                        Row(
+                                          children: [
+                                            Icon(Icons.location_on,
+                                                size: 14.sp, color: Colors.grey),
+                                            SizedBox(width: 2.w),
+                                            Expanded(
+                                              child: Text(
+                                                ad.location ?? 'Unknown',
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    fontSize: 12.sp,
+                                                    color: Colors.grey.shade600),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ),
-                                      SizedBox(height: 2.h),
-                                      Row(
-                                        children: [
-                                          Icon(Icons.location_on,
-                                              size: 14.sp, color: Colors.grey),
-                                          SizedBox(width: 2.w),
-                                          Expanded(
-                                            child: Text(
-                                              ad.location ?? 'Unknown',
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                  fontSize: 12.sp,
-                                                  color: Colors.grey.shade600),
+                                        SizedBox(height: 2.h),
+                                        Row(
+                                          children: [
+                                            Icon(Icons.access_time,
+                                                size: 14.sp, color: Colors.grey),
+                                            SizedBox(width: 2.w),
+                                            Expanded(
+                                              child: Text(
+                                                ad.createdAt ?? '',
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    fontSize: 12.sp,
+                                                    color: Colors.grey.shade600),
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 2.h),
-                                      Row(
-                                        children: [
-                                          Icon(Icons.access_time,
-                                              size: 14.sp, color: Colors.grey),
-                                          SizedBox(width: 2.w),
-                                          Expanded(
-                                            child: Text(
-                                              ad.createdAt ?? '',
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                  fontSize: 12.sp,
-                                                  color: Colors.grey.shade600),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         );
                       },

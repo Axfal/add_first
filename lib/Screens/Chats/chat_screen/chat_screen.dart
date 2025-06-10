@@ -293,7 +293,7 @@ class ChatScreenState extends State<ChatScreen> {
                                       ],
                                     ),
                                   ),
-        
+
                                   /// Second Tab - No Offer
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -372,7 +372,8 @@ class ChatScreenState extends State<ChatScreen> {
                             ),
                           ),
                           IconButton(
-                            icon: Icon(Icons.send, color: AppColor.primaryColor),
+                            icon:
+                                Icon(Icons.send, color: AppColor.primaryColor),
                             onPressed: _sendMessage,
                           ),
                           IconButton(
@@ -396,7 +397,8 @@ class ChatScreenState extends State<ChatScreen> {
                   height: MediaQuery.of(context).size.height * 0.5,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(20)),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.shade400,
