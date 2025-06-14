@@ -9,4 +9,7 @@ class AppUrl {
   static const String getAttribute = "$baseUrl/attributes.php?category_id=";
   static const String submitForm = "$baseUrl/submit_ad.php";
   static const String getBanners = '$baseUrl/get_adds.php'; /// get adds/ banners
+  static const String country = '$baseUrl/location_search_api.php?type=countries';
+  static const String state = '$baseUrl/location_search_api.php?type=states&country=Pakistan';
+  static const String city = '$baseUrl/location_search_api.php?type=cities&country=Pakistan&state=Punjab';
 }

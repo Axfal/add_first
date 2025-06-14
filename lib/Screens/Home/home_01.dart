@@ -2,7 +2,6 @@
 
 import 'package:olx_app/resources/exports.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:geocoding/geocoding.dart'; // <-- for placemarkFromCoordinates
 
 class Home01 extends StatefulWidget {
   const Home01({super.key});
@@ -18,12 +17,14 @@ class _Home01State extends State<Home01> {
   void initState() {
     super.initState();
 
+    // Fetch categories and banners after frame is drawn
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final context = this.context;
       Provider.of<CategoryProvider>(context, listen: false).getCategories();
       Provider.of<AddsProvider>(context, listen: false).getBanners();
     });
 
+    // Automatically get current location when screen starts
     getCurrentLocation();
   }
 
@@ -31,6 +32,7 @@ class _Home01State extends State<Home01> {
     bool serviceEnabled;
     LocationPermission permission;
 
+    // Check if location services are enabled
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       print('Location services are disabled.');
@@ -106,17 +108,21 @@ class _Home01State extends State<Home01> {
                   children: [
                     TextButton(
                       onPressed: () {
+                        // Optional: You can add location picker or refresh location here
                         getCurrentLocation();
                       },
                       child: Row(
                         children: [
                           Icon(Icons.location_on,
                               size: 16.sp, color: AppColor.primaryColor),
+
+                          // Show currentLocation or loading text
                           Text(
                             currentLocation ?? "Fetching location...",
                             style:
                                 TextStyle(fontSize: 14.sp, color: Colors.black),
                           ),
+
                           Icon(Icons.arrow_drop_down_sharp,
                               size: 20.sp, color: Colors.black),
                         ],
