@@ -47,3 +47,8 @@ export 'package:olx_app/repository/adds_repo.dart';
 export 'package:olx_app/model/adds_model.dart';
 export 'package:olx_app/Providers/adds_provider.dart';
 export 'package:olx_app/Widgets/product_details_feature_item.dart';
+export 'package:shimmer/shimmer.dart';
+export 'package:permission_handler/permission_handler.dart';
+export 'package:cached_network_image/cached_network_image.dart';
+export 'package:carousel_slider/carousel_slider.dart';
+export 'package:geocoding/geocoding.dart';

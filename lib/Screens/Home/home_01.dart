@@ -1,10 +1,8 @@
 // ignore_for_file: avoid_print, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:olx_app/Providers/adds_provider.dart';
 import 'package:olx_app/resources/exports.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart'; // <-- for placemarkFromCoordinates
 
 class Home01 extends StatefulWidget {
   const Home01({super.key});
@@ -14,20 +12,87 @@ class Home01 extends StatefulWidget {
 }
 
 class _Home01State extends State<Home01> {
+  String? currentLocation;
+
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final context = this.context;
       Provider.of<CategoryProvider>(context, listen: false).getCategories();
       Provider.of<AddsProvider>(context, listen: false).getBanners();
     });
+
+    getCurrentLocation();
+  }
+
+  Future<void> getCurrentLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      print('Location services are disabled.');
+      setState(() {
+        currentLocation = "Location Disabled";
+      });
+      return;
+    }
+
+    // Check permissions
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        print('Location permissions are denied');
+        setState(() {
+          currentLocation = "Permission Denied";
+        });
+        return;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      print('Location permissions are permanently denied.');
+      setState(() {
+        currentLocation = "Permission Denied Forever";
+      });
+      return;
+    }
+
+    // Get current position
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+
+    print('Latitude: ${position.latitude}, Longitude: ${position.longitude}');
+
+    // Convert coordinates to address
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+
+    if (placemarks.isNotEmpty) {
+      final Placemark place = placemarks.first;
+      String locationString =
+          "${place.locality ?? ''}, ${place.country ?? ''}".trim();
+      print("Current location: $locationString");
+
+      setState(() {
+        currentLocation =
+            locationString.isEmpty ? "Unknown Location" : locationString;
+      });
+    } else {
+      setState(() {
+        currentLocation = "Unknown Location";
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final categoryProvider = Provider.of<CategoryProvider>(context);
     final addsProvider = Provider.of<AddsProvider>(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -40,14 +105,18 @@ class _Home01State extends State<Home01> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        getCurrentLocation();
+                      },
                       child: Row(
                         children: [
                           Icon(Icons.location_on,
                               size: 16.sp, color: AppColor.primaryColor),
-                          Text('Cantt, Sialkot',
-                              style: TextStyle(
-                                  fontSize: 14.sp, color: Colors.black)),
+                          Text(
+                            currentLocation ?? "Fetching location...",
+                            style:
+                                TextStyle(fontSize: 14.sp, color: Colors.black),
+                          ),
                           Icon(Icons.arrow_drop_down_sharp,
                               size: 20.sp, color: Colors.black),
                         ],
@@ -141,7 +210,10 @@ class _Home01State extends State<Home01> {
                     return Builder(
                       builder: (BuildContext context) {
                         return InkWell(
-                          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductDetailPage())),
+                          onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProductDetailPage())),
                           child: Container(
                             margin: EdgeInsets.symmetric(horizontal: 4.w),
                             decoration: BoxDecoration(
@@ -221,7 +293,8 @@ class _Home01State extends State<Home01> {
                                         Row(
                                           children: [
                                             Icon(Icons.location_on,
-                                                size: 14.sp, color: Colors.grey),
+                                                size: 14.sp,
+                                                color: Colors.grey),
                                             SizedBox(width: 2.w),
                                             Expanded(
                                               child: Text(
@@ -230,7 +303,8 @@ class _Home01State extends State<Home01> {
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
                                                     fontSize: 12.sp,
-                                                    color: Colors.grey.shade600),
+                                                    color:
+                                                        Colors.grey.shade600),
                                               ),
                                             ),
                                           ],
@@ -239,7 +313,8 @@ class _Home01State extends State<Home01> {
                                         Row(
                                           children: [
                                             Icon(Icons.access_time,
-                                                size: 14.sp, color: Colors.grey),
+                                                size: 14.sp,
+                                                color: Colors.grey),
                                             SizedBox(width: 2.w),
                                             Expanded(
                                               child: Text(
@@ -248,7 +323,8 @@ class _Home01State extends State<Home01> {
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
                                                     fontSize: 12.sp,
-                                                    color: Colors.grey.shade600),
+                                                    color:
+                                                        Colors.grey.shade600),
                                               ),
                                             ),
                                           ],
