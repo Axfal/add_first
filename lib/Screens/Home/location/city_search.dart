@@ -1,19 +1,20 @@
 // ignore_for_file: prefer_const_constructors, prefer_final_fields, prefer_const_literals_to_create_immutables, avoid_print
 
 import 'package:flutter/cupertino.dart';
-import 'package:olx_app/Screens/Home/location/state_search.dart';
 import 'package:olx_app/resources/exports.dart';
 
-class LocationOverlay extends StatefulWidget {
+class LocationOverlay3 extends StatefulWidget {
+  final String state;
   final VoidCallback onClose;
 
-  const LocationOverlay({super.key, required this.onClose});
+  const LocationOverlay3(
+      {super.key, required this.onClose, required this.state});
 
   @override
-  State<LocationOverlay> createState() => _LocationOverlayState();
+  State<LocationOverlay3> createState() => _LocationOverlayState();
 }
 
-class _LocationOverlayState extends State<LocationOverlay>
+class _LocationOverlayState extends State<LocationOverlay3>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _slideAnimation;
@@ -47,7 +48,7 @@ class _LocationOverlayState extends State<LocationOverlay>
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<LocationProvider>(context, listen: false)
-          .getLocation('country');
+          .getLocation('city', state: widget.state);
     });
   }
 
@@ -60,15 +61,13 @@ class _LocationOverlayState extends State<LocationOverlay>
 
   Widget buildResults() {
     final locationProvider = Provider.of<LocationProvider>(context);
-    final countryModel = locationProvider.countryModel;
+    final cityModel = locationProvider.cityModel;
 
     if (locationProvider.isLoading) {
       return Center(child: CupertinoActivityIndicator());
     }
 
-    if (countryModel == null ||
-        countryModel.data == null ||
-        countryModel.data!.isEmpty) {
+    if (cityModel == null || cityModel.data!.isEmpty) {
       return Center(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -84,13 +83,12 @@ class _LocationOverlayState extends State<LocationOverlay>
       );
     }
 
-    final filteredCountries = countryModel.data!
-        .where((country) =>
-            country.name?.toLowerCase().contains(_searchQuery.toLowerCase()) ??
-            false)
+    final filteredStates = cityModel.data!
+        .where(
+            (city) => city.toLowerCase().contains(_searchQuery.toLowerCase()))
         .toList();
 
-    if (filteredCountries.isEmpty) {
+    if (filteredStates.isEmpty) {
       return Center(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -107,20 +105,14 @@ class _LocationOverlayState extends State<LocationOverlay>
     }
 
     return ListView.builder(
-      itemCount: filteredCountries.length,
+      itemCount: filteredStates.length,
       padding: EdgeInsets.only(top: 8.h, left: 16.w, right: 16.w),
       itemBuilder: (context, index) {
-        final country = filteredCountries[index];
+        final city = filteredStates[index];
 
         return GestureDetector(
           onTap: () async {
-            locationProvider.setCountry(country.name!);
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => LocationOverlay2(
-                        onClose: () => Navigator.pop(context),
-                        country: country.name!)));
+            locationProvider.setCity(city);
           },
           child: Container(
             margin: EdgeInsets.only(bottom: 14.h),
@@ -161,7 +153,7 @@ class _LocationOverlayState extends State<LocationOverlay>
                     radius: 26,
                     backgroundColor: Colors.white,
                     child: Text(
-                      country.iso2?.toUpperCase() ?? "",
+                      city.substring(0, 2).toUpperCase(),
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 16,
@@ -173,28 +165,15 @@ class _LocationOverlayState extends State<LocationOverlay>
                 ),
                 SizedBox(width: 16.w),
                 Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        country.name ?? 'Unknown',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black87,
-                        ),
-                      ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        "Lat: ${country.lat}, Long: ${country.long}",
-                        style: TextStyle(
-                          fontSize: 13.sp,
-                          color: Colors.grey[600],
-                        ),
-                      ),
-                    ],
+                  child: Text(
+                    city,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black87,
+                    ),
                   ),
                 ),
                 Icon(Icons.arrow_forward_ios_rounded,
@@ -215,9 +194,9 @@ class _LocationOverlayState extends State<LocationOverlay>
           opacity: _fadeAnimation,
           child: SlideTransition(
             position: _slideAnimation,
-            child: Container(
-              color: Colors.grey.shade100.withValues(alpha: 0.98),
-              child: SafeArea(
+            child: Scaffold(
+              backgroundColor: Colors.grey.shade100.withValues(alpha: 0.98),
+              body: SafeArea(
                 child: Column(
                   children: [
                     Container(
@@ -256,7 +235,7 @@ class _LocationOverlayState extends State<LocationOverlay>
                                 });
                               },
                               decoration: InputDecoration(
-                                hintText: 'Search country...',
+                                hintText: 'Search city...',
                                 prefixIcon: Icon(Icons.search,
                                     color: AppColor.primaryColor, size: 24.sp),
                                 filled: true,

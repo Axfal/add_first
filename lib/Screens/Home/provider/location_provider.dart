@@ -17,7 +17,32 @@ class LocationProvider with ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  Future<void> getLocation(String status, {String? country}) async {
+  String _selectedCountry = '';
+  String get selectedCountry => _selectedCountry;
+
+  String _selectedState = '';
+  String get selectedState => _selectedState;
+
+  String _selectedCity = '';
+  String get selectedCity => _selectedCity;
+
+  void setCountry(String country) {
+    _selectedCountry = country;
+    notifyListeners();
+  }
+
+  void setState(String state) {
+    _selectedState = state;
+    notifyListeners();
+  }
+
+  void setCity(String city) {
+    _selectedCity = city;
+    notifyListeners();
+  }
+
+  Future<void> getLocation(String status,
+      {String? country, String? state}) async {
     _isLoading = true;
     notifyListeners();
 
@@ -42,9 +67,12 @@ class LocationProvider with ChangeNotifier {
           break;
 
         case 'city':
-          final response = await _service.getCity();
-          if (response['error'] == false && response['msg'] != null) {
-            _cityModel = CityModel.fromJson(response);
+          if (state != null && state != '') {
+            final response = await _service.getCity(state);
+
+            if (response['error'] == false && response['msg'] != null) {
+              _cityModel = CityModel.fromJson(response);
+            }
           }
           break;
 

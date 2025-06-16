@@ -1,13 +1,15 @@
 // ignore_for_file: prefer_const_constructors, prefer_final_fields, prefer_const_literals_to_create_immutables, avoid_print
 
 import 'package:flutter/cupertino.dart';
+import 'package:olx_app/Screens/Home/location/city_search.dart';
 import 'package:olx_app/resources/exports.dart';
 
 class LocationOverlay2 extends StatefulWidget {
   final String country;
   final VoidCallback onClose;
 
-  const LocationOverlay2({super.key, required this.onClose, required this.country});
+  const LocationOverlay2(
+      {super.key, required this.onClose, required this.country});
 
   @override
   State<LocationOverlay2> createState() => _LocationOverlayState();
@@ -110,7 +112,15 @@ class _LocationOverlayState extends State<LocationOverlay2>
         final state = filteredStates[index];
 
         return GestureDetector(
-          onTap: () async {},
+          onTap: () async {
+            locationProvider.setState(state.name);
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => LocationOverlay3(
+                        onClose: () => Navigator.pop(context),
+                        state: state.name)));
+          },
           child: Container(
             margin: EdgeInsets.only(bottom: 14.h),
             padding: EdgeInsets.all(14.w),
@@ -119,7 +129,7 @@ class _LocationOverlayState extends State<LocationOverlay2>
               borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.15),
+                  color: Colors.grey.withValues(alpha: 0.15),
                   blurRadius: 10,
                   offset: Offset(0, 6),
                 ),
@@ -132,15 +142,15 @@ class _LocationOverlayState extends State<LocationOverlay2>
                     shape: BoxShape.circle,
                     gradient: LinearGradient(
                       colors: [
-                        AppColor.primaryColor.withOpacity(0.15),
-                        AppColor.primaryColor.withOpacity(0.05),
+                        AppColor.primaryColor.withValues(alpha: 0.15),
+                        AppColor.primaryColor.withValues(alpha: 0.05),
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColor.primaryColor.withOpacity(0.2),
+                        color: AppColor.primaryColor.withValues(alpha: 0.2),
                         blurRadius: 10,
                         offset: Offset(0, 4),
                       ),
@@ -185,86 +195,88 @@ class _LocationOverlayState extends State<LocationOverlay2>
 
   @override
   Widget build(BuildContext context) {
-    return Positioned.fill(
-      child: FadeTransition(
-        opacity: _fadeAnimation,
-        child: SlideTransition(
-          position: _slideAnimation,
-          child: Scaffold(
-            backgroundColor: Colors.grey.shade100.withOpacity(0.98),
-            body: SafeArea(
-              child: Column(
-                children: [
-                  Container(
-                    height: 60.h,
-                    margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-                    padding: EdgeInsets.symmetric(horizontal: 12.w),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20.r),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 8,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        IconButton(
-                          onPressed: widget.onClose,
-                          icon: Icon(Icons.arrow_back_ios,
-                              color: AppColor.primaryColor, size: 24.sp),
-                          splashRadius: 24,
-                          padding: EdgeInsets.all(8),
-                          constraints: BoxConstraints(),
-                        ),
-                        SizedBox(width: 12.w),
-                        Expanded(
-                          child: TextField(
-                            controller: _searchController,
-                            onChanged: (value) {
-                              setState(() {
-                                _searchQuery = value;
-                              });
-                            },
-                            decoration: InputDecoration(
-                              hintText: 'Search state...',
-                              prefixIcon: Icon(Icons.search,
-                                  color: AppColor.primaryColor, size: 24.sp),
-                              filled: true,
-                              fillColor: Colors.grey.shade100,
-                              contentPadding:
-                              EdgeInsets.symmetric(vertical: 16.h),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.r),
-                                borderSide: BorderSide.none,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.r),
-                                borderSide:
-                                BorderSide(color: Colors.grey.shade300),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.r),
-                                borderSide: BorderSide(
-                                    color: AppColor.primaryColor, width: 2),
+    return Stack(
+      children: [
+        FadeTransition(
+          opacity: _fadeAnimation,
+          child: SlideTransition(
+            position: _slideAnimation,
+            child: Scaffold(
+              backgroundColor: Colors.grey.shade100.withValues(alpha: 0.98),
+              body: SafeArea(
+                child: Column(
+                  children: [
+                    Container(
+                      height: 60.h,
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+                      padding: EdgeInsets.symmetric(horizontal: 12.w),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20.r),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 8,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          IconButton(
+                            onPressed: widget.onClose,
+                            icon: Icon(Icons.arrow_back_ios,
+                                color: AppColor.primaryColor, size: 24.sp),
+                            splashRadius: 24,
+                            padding: EdgeInsets.all(8),
+                            constraints: BoxConstraints(),
+                          ),
+                          SizedBox(width: 12.w),
+                          Expanded(
+                            child: TextField(
+                              controller: _searchController,
+                              onChanged: (value) {
+                                setState(() {
+                                  _searchQuery = value;
+                                });
+                              },
+                              decoration: InputDecoration(
+                                hintText: 'Search state...',
+                                prefixIcon: Icon(Icons.search,
+                                    color: AppColor.primaryColor, size: 24.sp),
+                                filled: true,
+                                fillColor: Colors.grey.shade100,
+                                contentPadding:
+                                    EdgeInsets.symmetric(vertical: 16.h),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20.r),
+                                  borderSide: BorderSide.none,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20.r),
+                                  borderSide:
+                                      BorderSide(color: Colors.grey.shade300),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20.r),
+                                  borderSide: BorderSide(
+                                      color: AppColor.primaryColor, width: 2),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  Expanded(child: buildResults()),
-                ],
+                    Expanded(child: buildResults()),
+                  ],
+                ),
               ),
             ),
           ),
         ),
-      ),
+      ],
     );
   }
-
 }
