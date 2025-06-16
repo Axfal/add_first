@@ -1,9 +1,5 @@
 // ignore_for_file: avoid_print
 
-import 'package:olx_app/model/locations_model/city_model.dart';
-import 'package:olx_app/model/locations_model/country_model.dart';
-import 'package:olx_app/model/locations_model/states_model.dart';
-import 'package:olx_app/repository/location_repo.dart';
 import 'package:olx_app/resources/exports.dart';
 
 class LocationProvider with ChangeNotifier {
@@ -30,6 +26,7 @@ class LocationProvider with ChangeNotifier {
         case 'country':
           final response = await _service.getCountries();
           if (response['error'] == false && response['msg'] != null) {
+            print('Country API response: ${response['msg']}');
             _countryModel = CountryModel.fromJson(response);
           }
           break;

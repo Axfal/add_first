@@ -15,6 +15,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => VerifyOtpProvider()),
         ChangeNotifierProvider(create: (_) => AddsProvider()),
         ChangeNotifierProvider(create: (_) => AttributeProvider()),
+        ChangeNotifierProvider(create: (_) => LocationProvider()),
       ],
       child: const MyApp(),
     ),

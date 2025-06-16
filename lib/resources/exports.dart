@@ -52,3 +52,8 @@ export 'package:permission_handler/permission_handler.dart';
 export 'package:cached_network_image/cached_network_image.dart';
 export 'package:carousel_slider/carousel_slider.dart';
 export 'package:geocoding/geocoding.dart';
+export 'package:olx_app/Screens/Home/provider/location_provider.dart';
+export 'package:olx_app/model/locations_model/city_model.dart';
+export 'package:olx_app/model/locations_model/country_model.dart';
+export 'package:olx_app/model/locations_model/states_model.dart' show StateModel;
+export 'package:olx_app/repository/location_repo.dart';
