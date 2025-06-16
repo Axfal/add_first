@@ -13,9 +13,9 @@ class LocationRepo {
     }
   }
 
-  Future<Map<String, dynamic>> getStates() async {
+  Future<Map<String, dynamic>> getStates(String country) async {
     try {
-      final response = await _apiServices.getGetApiResponse(AppUrl.state);
+      final response = await _apiServices.getGetApiResponse(AppUrl.state + country);
       return response;
     } catch (error) {
       rethrow;

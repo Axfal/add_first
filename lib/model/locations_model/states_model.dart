@@ -1,74 +1,85 @@
 class StateModel {
-  bool? error;
-  String? msg;
-  Data? data;
+  final bool error;
+  final String msg;
+  final CountryData data;
 
-  StateModel({this.error, this.msg, this.data});
+  StateModel({
+    required this.error,
+    required this.msg,
+    required this.data,
+  });
 
-  StateModel.fromJson(Map<String, dynamic> json) {
-    error = json['error'];
-    msg = json['msg'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+  factory StateModel.fromJson(Map<String, dynamic> json) {
+    return StateModel(
+      error: json['error'] ?? false,
+      msg: json['msg'] ?? '',
+      data: CountryData.fromJson(json['data']),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['error'] = this.error;
-    data['msg'] = this.msg;
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
-    }
-    return data;
+    return {
+      'error': error,
+      'msg': msg,
+      'data': data.toJson(),
+    };
   }
 }
 
-class Data {
-  String? name;
-  String? iso3;
-  String? iso2;
-  List<States>? states;
+class CountryData {
+  final String name;
+  final String iso3;
+  final String iso2;
+  final List<StateInfo> states;
 
-  Data({this.name, this.iso3, this.iso2, this.states});
+  CountryData({
+    required this.name,
+    required this.iso3,
+    required this.iso2,
+    required this.states,
+  });
 
-  Data.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    iso3 = json['iso3'];
-    iso2 = json['iso2'];
-    if (json['states'] != null) {
-      states = <States>[];
-      json['states'].forEach((v) {
-        states!.add(new States.fromJson(v));
-      });
-    }
+  factory CountryData.fromJson(Map<String, dynamic> json) {
+    return CountryData(
+      name: json['name'] ?? '',
+      iso3: json['iso3'] ?? '',
+      iso2: json['iso2'] ?? '',
+      states: (json['states'] as List)
+          .map((state) => StateInfo.fromJson(state))
+          .toList(),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['iso3'] = this.iso3;
-    data['iso2'] = this.iso2;
-    if (this.states != null) {
-      data['states'] = this.states!.map((v) => v.toJson()).toList();
-    }
-    return data;
+    return {
+      'name': name,
+      'iso3': iso3,
+      'iso2': iso2,
+      'states': states.map((s) => s.toJson()).toList(),
+    };
   }
 }
 
-class States {
-  String? name;
-  String? stateCode;
+class StateInfo {
+  final String name;
+  final String stateCode;
 
-  States({this.name, this.stateCode});
+  StateInfo({
+    required this.name,
+    required this.stateCode,
+  });
 
-  States.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    stateCode = json['state_code'];
+  factory StateInfo.fromJson(Map<String, dynamic> json) {
+    return StateInfo(
+      name: json['name'] ?? '',
+      stateCode: json['state_code'] ?? '',
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['state_code'] = this.stateCode;
-    return data;
+    return {
+      'name': name,
+      'state_code': stateCode,
+    };
   }
 }

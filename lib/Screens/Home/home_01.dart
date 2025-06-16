@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_print, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:olx_app/Screens/Home/location_search_bar.dart';
+import 'package:olx_app/Screens/Home/location/location_search_bar.dart';
 import 'package:olx_app/resources/exports.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -119,7 +119,9 @@ class _Home01State extends State<Home01> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                SizedBox(width: 8.w,),
+                                SizedBox(
+                                  width: 8.w,
+                                ),
                                 Icon(Icons.location_on,
                                     size: 22.sp, color: AppColor.primaryColor),
                                 Text(
@@ -426,10 +428,9 @@ class _Home01State extends State<Home01> {
             ),
           ),
           _showSearchOverlay
-          ? LocationOverlay(onClose: _toggleSearchOverlay)
-        : SizedBox()
-
-    ],
+              ? LocationOverlay(onClose: _toggleSearchOverlay)
+              : SizedBox()
+        ],
       ),
     );
   }

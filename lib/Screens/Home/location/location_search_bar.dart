@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_final_fields, prefer_const_literals_to_create_immutables, avoid_print
 
 import 'package:flutter/cupertino.dart';
+import 'package:olx_app/Screens/Home/location/state_search.dart';
 import 'package:olx_app/resources/exports.dart';
 
 class LocationOverlay extends StatefulWidget {
@@ -112,7 +113,14 @@ class _LocationOverlayState extends State<LocationOverlay>
         final country = filteredCountries[index];
 
         return GestureDetector(
-          onTap: () async {},
+          onTap: () async {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => LocationOverlay2(
+                        onClose: () => Navigator.pop(context),
+                        country: country.name!)));
+          },
           child: Container(
             margin: EdgeInsets.only(bottom: 14.h),
             padding: EdgeInsets.all(14.w),

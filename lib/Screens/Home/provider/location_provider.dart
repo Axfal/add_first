@@ -17,7 +17,7 @@ class LocationProvider with ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  Future<void> getLocation(String status) async {
+  Future<void> getLocation(String status, {String? country}) async {
     _isLoading = true;
     notifyListeners();
 
@@ -32,9 +32,12 @@ class LocationProvider with ChangeNotifier {
           break;
 
         case 'state':
-          final response = await _service.getStates();
-          if (response['error'] == false && response['msg'] != null) {
-            _stateModel = StateModel.fromJson(response);
+          if (country != null && country != '') {
+            final response = await _service.getStates(country);
+
+            if (response['error'] == false && response['msg'] != null) {
+              _stateModel = StateModel.fromJson(response);
+            }
           }
           break;
 
