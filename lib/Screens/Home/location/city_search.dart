@@ -112,7 +112,94 @@ class _LocationOverlayState extends State<LocationOverlay3>
 
         return GestureDetector(
           onTap: () async {
-            locationProvider.setCity(city);
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return Dialog(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24)),
+                  insetPadding:
+                      EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                  backgroundColor: Colors.white,
+                  elevation: 10,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 24),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.deepPurple.withValues(alpha: 0.1),
+                            shape: BoxShape.circle,
+                          ),
+                          padding: EdgeInsets.all(14),
+                          child: Icon(Icons.location_on,
+                              size: 32, color: AppColor.primaryColor),
+                        ),
+                        SizedBox(height: 16),
+                        Text(
+                          "Set Location",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black87,
+                          ),
+                        ),
+                        SizedBox(height: 12),
+                        Text(
+                          "Do you really want to set \"$city\" as your location?\nThis will be used to show relevant ads.",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 16, color: Colors.black54),
+                        ),
+                        SizedBox(height: 24),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                foregroundColor: Colors.grey[700],
+                                textStyle:
+                                    TextStyle(fontWeight: FontWeight.w500),
+                              ),
+                              child: Text("Cancel"),
+                              onPressed: () {
+                                locationProvider.locationConfirmed(false);
+                                Navigator.of(context).pop();},
+                            ),
+                            SizedBox(width: 8),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColor.primaryColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 12),
+                              ),
+                              child: Text(
+                                "Set Location",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white),
+                              ),
+                              onPressed: () {
+                                locationProvider.locationConfirmed(true);
+                                locationProvider.setCity(city);
+                                Navigator.of(context).pop();
+                                ToastHelper.showSuccess(
+                                  "Location set to ${locationProvider.selectedCity}, ${locationProvider.selectedState}, ${locationProvider.selectedCountry}",
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
           },
           child: Container(
             margin: EdgeInsets.only(bottom: 14.h),

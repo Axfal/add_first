@@ -99,6 +99,7 @@ class _Home01State extends State<Home01> {
   Widget build(BuildContext context) {
     final categoryProvider = Provider.of<CategoryProvider>(context);
     final addsProvider = Provider.of<AddsProvider>(context);
+    final locationProvider = Provider.of<LocationProvider>(context);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -125,7 +126,10 @@ class _Home01State extends State<Home01> {
                                 Icon(Icons.location_on,
                                     size: 22.sp, color: AppColor.primaryColor),
                                 Text(
-                                  currentLocation ?? "Fetching location...",
+                                  locationProvider.locationConfirm
+                                      ? "${locationProvider.selectedCity}, ${locationProvider.selectedState}"
+                                      : currentLocation ??
+                                          "Fetching location...",
                                   style: TextStyle(
                                       fontSize: 14.sp, color: Colors.black),
                                 ),

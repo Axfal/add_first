@@ -26,6 +26,14 @@ class LocationProvider with ChangeNotifier {
   String _selectedCity = '';
   String get selectedCity => _selectedCity;
 
+  bool _locationConfirm = false;
+  bool get locationConfirm => _locationConfirm;
+
+  void locationConfirmed(bool confirm) {
+    _locationConfirm = confirm;
+    notifyListeners();
+  }
+
   void setCountry(String country) {
     _selectedCountry = country;
     notifyListeners();
