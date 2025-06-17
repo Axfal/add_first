@@ -20,9 +20,10 @@ class AttributeProvider with ChangeNotifier {
       final response = await _attributesRepo.getAttributes(categoryId);
       _attributesModel = AttributesModel.fromJson(response);
 
-      if (_attributesModel?.error != null) {
-        ToastHelper.showError(_attributesModel!.error!);
-      } else if (_attributesModel?.success == true) {
+      if (_attributesModel!.success == false && _attributesModel?.message != null) {
+        ToastHelper.showError(_attributesModel!.message
+        !);
+      } else if (_attributesModel?.success == true && _attributesModel!.category != null) {
         print("Data loaded successfully");
       } else {
         ToastHelper.showError("Failed to fetch attributes for this category.");

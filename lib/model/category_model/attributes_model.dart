@@ -1,26 +1,26 @@
 class AttributesModel {
   bool? success;
-  String? error;
+  String? message; // for error response
   Category? category;
-  List<Fields>? fields;
+  List<Attribute>? attributes;
 
   AttributesModel({
     this.success,
-    this.error,
+    this.message,
     this.category,
-    this.fields,
+    this.attributes,
   });
 
   factory AttributesModel.fromJson(Map<String, dynamic> json) {
     return AttributesModel(
       success: json['success'],
-      error: json['error'],
-      category: json['category'] != null
+      message: json['message'],
+      category: json['category'] != null && json['category'] is Map<String, dynamic>
           ? Category.fromJson(json['category'])
           : null,
-      fields: json['fields'] != null
-          ? (json['fields'] as List)
-          .map((v) => Fields.fromJson(v))
+      attributes: json['attributes'] != null && json['attributes'] is List
+          ? (json['attributes'] as List)
+          .map((v) => Attribute.fromJson(v))
           .toList()
           : null,
     );
@@ -29,10 +29,10 @@ class AttributesModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data['success'] = success;
-    data['error'] = error;
+    if (message != null) data['message'] = message;
     if (category != null) data['category'] = category!.toJson();
-    if (fields != null) {
-      data['fields'] = fields!.map((v) => v.toJson()).toList();
+    if (attributes != null) {
+      data['attributes'] = attributes!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -62,24 +62,24 @@ class Category {
   }
 }
 
-class Fields {
-  int? fieldId;
+class Attribute {
+  int? id;
   String? fieldName;
   String? fieldType;
   bool? isRequired;
   List<String>? options;
 
-  Fields({
-    this.fieldId,
+  Attribute({
+    this.id,
     this.fieldName,
     this.fieldType,
     this.isRequired,
     this.options,
   });
 
-  factory Fields.fromJson(Map<String, dynamic> json) {
-    return Fields(
-      fieldId: json['field_id'],
+  factory Attribute.fromJson(Map<String, dynamic> json) {
+    return Attribute(
+      id: json['id'],
       fieldName: json['field_name'],
       fieldType: json['field_type'],
       isRequired: json['is_required'],
@@ -89,7 +89,7 @@ class Fields {
 
   Map<String, dynamic> toJson() {
     return {
-      'field_id': fieldId,
+      'id': id,
       'field_name': fieldName,
       'field_type': fieldType,
       'is_required': isRequired,

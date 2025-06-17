@@ -30,12 +30,12 @@ class DynamicPostFormScreenState extends State<DynamicPostFormScreen> {
     await attributeProvider.getAttributes(widget.categoryId);
   }
 
-  Widget buildField(Fields field) {
-    final int id = field.fieldId ?? 0;
-    final String name = field.fieldName ?? '';
-    final String type = field.fieldType ?? 'text';
-    final bool required = field.isRequired ?? false;
-    final List<String> options = field.options ?? [];
+  Widget buildField(Attribute attribute) {
+    final int id = attribute.id ?? 0;
+    final String name = attribute.fieldName ?? '';
+    final String type = attribute.fieldType ?? 'text';
+    final bool required = attribute.isRequired ?? false;
+    final List<String> options = attribute.options ?? [];
 
     Widget child;
 
@@ -227,7 +227,7 @@ class DynamicPostFormScreenState extends State<DynamicPostFormScreen> {
   @override
   Widget build(BuildContext context) {
     final attributeProvider = Provider.of<AttributeProvider>(context);
-    final validFields = attributeProvider.attributesModel?.fields
+    final validFields = attributeProvider.attributesModel?.attributes
         ?.where((field) => field.fieldType != null && field.fieldName != null)
         .toList();
 
@@ -272,7 +272,8 @@ class DynamicPostFormScreenState extends State<DynamicPostFormScreen> {
                   if (value == null) return;
 
                   if (value is List<XFile>) {
-                    List<String> paths = value.map((file) => file.path).toList();
+                    List<String> paths =
+                        value.map((file) => file.path).toList();
                     formDataList.add({
                       "key": "field_${key}[]",
                       "type": "file",
@@ -293,7 +294,6 @@ class DynamicPostFormScreenState extends State<DynamicPostFormScreen> {
                   }
                 });
 
-                // ✅ Prepare the correct structure
                 final data = {
                   "user_id": userId,
                   "category_id": widget.categoryId.toString(),
@@ -305,8 +305,6 @@ class DynamicPostFormScreenState extends State<DynamicPostFormScreen> {
                 await attributeProvider.submitForm(data);
               }
             },
-
-
             icon: const Icon(FontAwesomeIcons.paperPlane, color: Colors.white),
             label: const Text(
               "Submit Ad",
